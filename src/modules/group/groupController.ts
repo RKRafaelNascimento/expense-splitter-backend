@@ -33,7 +33,8 @@ export class GroupController implements IGroupController {
 
       res.status(StatusCode.OK).json(HttpHelpers.sucessResponse(group));
     } catch (error) {
-      res.status(StatusCode.OK).json(HttpHelpers.handleError(error));
+      const response = HttpHelpers.handleError(error);
+      res.status(response.statusCode).json(response);
     }
   }
 }
