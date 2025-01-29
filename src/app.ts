@@ -4,6 +4,7 @@ import { applicationConfig } from "@/config";
 import { ILogger } from "@/shared/Logger/interfaces";
 import { Logger } from "@/shared/Logger";
 import { DatabaseClient } from "@/infra/database";
+import * as routes from "@/modules";
 
 export default class App {
   private readonly application: Application;
@@ -35,6 +36,7 @@ export default class App {
   }
   private setupRoutes(): void {
     this.logger.info({ msg: "Initializing application routes" });
+    this.application.use("/", [...Object.values(routes)]);
   }
 
   private async setupDatabases(): Promise<void> {
