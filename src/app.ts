@@ -3,6 +3,7 @@ import express, { Application } from "express";
 import { applicationConfig } from "@/config";
 import { ILogger } from "@/shared/Logger/interfaces";
 import { Logger } from "@/shared/Logger";
+import { DatabaseClient } from "@/infra/database";
 
 export default class App {
   private readonly application: Application;
@@ -35,6 +36,14 @@ export default class App {
   private setupRoutes(): void {
     this.logger.info({ msg: "Initializing application routes" });
   }
+
+  private async setupDatabases(): Promise<void> {
+    this.logger.info({ msg: "connecting to databases" });
+
+    await Promise.all([DatabaseClient.getInstance().startConnection()]);
+    this.logger.info({ msg: "databases connected successfully" });
+  }
+
   public initServer(): void {
     this.logger.info({ msg: "Initializing server" });
     this.server.listen(this.port, () => {
@@ -47,5 +56,6 @@ export default class App {
     this.logger.info({ msg: "Initializing application" });
     this.setupGlobalMiddleware();
     this.setupRoutes();
+    this.setupDatabases();
   }
 }
