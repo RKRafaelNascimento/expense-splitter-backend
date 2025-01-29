@@ -21,7 +21,7 @@ export class HttpHelpers {
   static sucessResponse<T>(data: T, statusCode?: number): ISucessResponse<T> {
     return {
       statusCode,
-      data,
+      ...data,
     };
   }
 
