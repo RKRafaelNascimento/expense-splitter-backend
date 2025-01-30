@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { GroupController, GroupService, GroupRepository } from ".";
+import { GroupController } from ".";
+import { GroupServiceFactory } from "./groupFactory";
 import { ValidatorService } from "@/shared/Validator";
-import { DatabaseClient } from "@/infra/database";
 import { IGroupController } from "./interfaces";
 
 const groupFactory = (): IGroupController => {
-  const databaseClient = DatabaseClient.getInstance();
   return new GroupController(
-    new GroupService(new GroupRepository(databaseClient)),
+    GroupServiceFactory.getInstance(),
     new ValidatorService(),
   );
 };
@@ -17,5 +16,9 @@ const groupController = groupFactory();
 const routes = Router();
 
 routes.post("/group", groupController.create.bind(groupController));
+routes.post(
+  "/group/add-member",
+  groupController.addMember.bind(groupController),
+);
 
 export default routes;

@@ -1,11 +1,10 @@
-import { ErrorCodes } from "../enums";
 import { IValidationError } from "../Validator/interfaces/validator.interface";
 import { HttpError } from "./HttpError";
 
 export class BadRequestError extends HttpError {
   constructor(
     description = "Missing or invalid param",
-    code = ErrorCodes.GENERIC,
+    code = "GENERIC_ERROR",
     validationErrors?: IValidationError[],
   ) {
     super(

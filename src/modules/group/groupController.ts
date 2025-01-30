@@ -37,4 +37,33 @@ export class GroupController implements IGroupController {
       res.status(response.statusCode).json(response);
     }
   }
+
+  async addMember(req: Request, res: Response): Promise<void> {
+    try {
+      const { value, error } = this.validatorService.validate<{
+        groupId: number;
+        memberId: number;
+      }>(GroupSchema.addMember, req.body);
+
+      if (error)
+        throw new BadRequestError(
+          "Missing Params or Invalid",
+          ErrorCodes.MISSING_OR_INVALID_PARAMETERS,
+          this.validatorService.formatErrorMessage(error),
+        );
+
+      const { memberId, groupId } = value;
+
+      await this.groupService.addMember(groupId, memberId);
+
+      res
+        .status(StatusCode.OK)
+        .json(
+          HttpHelpers.sucessResponse({ message: "Member added successfully" }),
+        );
+    } catch (error) {
+      const response = HttpHelpers.handleError(error);
+      res.status(response.statusCode).json(response);
+    }
+  }
 }

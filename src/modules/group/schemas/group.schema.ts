@@ -4,4 +4,9 @@ const createGroup = Joi.object({
   name: Joi.string().required(),
 });
 
-export = { createGroup };
+const addMember = Joi.object({
+  groupId: Joi.number().required(),
+  memberId: Joi.number().required(),
+});
+
+export = { createGroup, addMember };

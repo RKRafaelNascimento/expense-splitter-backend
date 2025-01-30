@@ -1,4 +1,3 @@
-import { ErrorCodes } from "../enums";
 import { IValidationError } from "../Validator/interfaces";
 import { StatusCodes } from "http-status-codes";
 
@@ -13,7 +12,7 @@ export class HttpError extends Error {
   constructor(
     public description: string,
     public status: keyof typeof StatusCodes,
-    public code: string = ErrorCodes.GENERIC,
+    public code: string = "GENERIC_ERROR",
     public validationErrors: IValidationError[] = [],
   ) {
     super(description);
