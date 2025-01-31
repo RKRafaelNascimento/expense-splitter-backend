@@ -1,6 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { IDatabaseClient } from "@/infra/interfaces";
-import { IGroupMember, IGroupMemberRepository } from "./interfaces";
+import {
+  IGroupMember,
+  IGroupMemberRepository,
+  IGroupWithMember,
+} from "./interfaces";
 
 export class GroupMemberRepository implements IGroupMemberRepository {
   private prisma: PrismaClient;
@@ -28,6 +32,22 @@ export class GroupMemberRepository implements IGroupMemberRepository {
     return this.prisma.groupMember.findMany({
       where: { groupId },
       select: { id: true, groupId: true, memberId: true, createdAt: true },
+    });
+  }
+
+  async findMembersWithDetailsByGroupId(
+    groupId: number,
+  ): Promise<IGroupWithMember[]> {
+    return this.prisma.groupMember.findMany({
+      where: { groupId },
+      include: {
+        member: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
   }
 }

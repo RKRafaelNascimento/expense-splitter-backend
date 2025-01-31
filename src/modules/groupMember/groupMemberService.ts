@@ -3,6 +3,7 @@ import {
   IGroupMemberService,
   IGroupMemberRepository,
   IGroupMember,
+  IGroupWithMember,
 } from "./interfaces";
 import { BadRequestError } from "@/shared/errors";
 
@@ -37,5 +38,11 @@ export class GroupMemberService implements IGroupMemberService {
 
   async findMembersByGroupId(groupId: number): Promise<IGroupMember[]> {
     return this.groupMemberRepository.findMembersByGroupId(groupId);
+  }
+
+  async findMembersWithDetailsByGroupId(
+    groupId: number,
+  ): Promise<IGroupWithMember[]> {
+    return this.groupMemberRepository.findMembersWithDetailsByGroupId(groupId);
   }
 }
