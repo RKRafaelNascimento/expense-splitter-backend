@@ -19,6 +19,7 @@ model Group {
   createdAt DateTime      @default(now()) @map("created_at")
   members   GroupMember[]
   Expense   Expense[]
+  Balance   Balance[]
 }
 
 model Member {
@@ -29,6 +30,7 @@ model Member {
   groups       GroupMember[]
   Expense      Expense[]
   ExpenseSplit ExpenseSplit[]
+  Balance      Balance[]
 }
 
 model GroupMember {
@@ -57,6 +59,8 @@ model Expense {
   createdByMember Member @relation(fields: [createdBy], references: [id], onDelete: Restrict)
 
   expenseSplits ExpenseSplit[]
+
+  @@unique([id, groupId])
 }
 
 model ExpenseSplit {
@@ -69,4 +73,17 @@ model ExpenseSplit {
 
   expense Expense @relation(fields: [expenseId], references: [id], onDelete: Restrict)
   member  Member  @relation(fields: [memberId], references: [id], onDelete: Restrict)
+}
+
+model Balance {
+  id        Int      @id @default(autoincrement())
+  memberId  Int
+  groupId   Int
+  balance   Float    @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  group  Group  @relation(fields: [groupId], references: [id], onDelete: Restrict)
+
+  @@unique([memberId, groupId])
 }
