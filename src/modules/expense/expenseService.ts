@@ -9,7 +9,7 @@ import {
 import { IMemberSplit, IExpenseData } from "./interfaces";
 import { BadRequestError } from "@/shared/errors";
 import { expenseErrorCodes } from "./errors";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 export class ExpenseService implements IExpenseService {
   private prisma = new PrismaClient();
@@ -103,5 +103,31 @@ export class ExpenseService implements IExpenseService {
     groupId: number,
   ): Promise<IExpense | null> {
     return this.expenseRepository.findByIdAndGroup(expenseId, groupId);
+  }
+
+  async markAsPaid(
+    expenseId: number,
+    groupId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpense | undefined> {
+    const expense = await this.expenseRepository.findByIdAndGroup(
+      expenseId,
+      groupId,
+    );
+    if (!expense) {
+      throw new BadRequestError(
+        "Expense not found or does not belong to the group.",
+        expenseErrorCodes.EXPENSE_NOT_FOUND,
+      );
+    }
+
+    const expenseSplits =
+      await this.expenseSplitService.getSplitsByExpense(expenseId);
+
+    const allPaid = expenseSplits.every((split) => split.paid);
+
+    if (!allPaid) return;
+
+    return await this.expenseRepository.markAsPaid(expenseId, transaction);
   }
 }

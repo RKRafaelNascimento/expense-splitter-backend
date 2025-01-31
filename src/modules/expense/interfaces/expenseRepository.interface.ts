@@ -10,4 +10,8 @@ export interface IExpenseRepository {
     expenseId: number,
     groupId: number,
   ): Promise<IExpense | null>;
+  markAsPaid(
+    expenseId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpense>;
 }

@@ -34,4 +34,16 @@ export class ExpenseRepository implements IExpenseRepository {
       },
     });
   }
+
+  async markAsPaid(
+    expenseId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpense> {
+    const prismaClient = transaction || this.prisma;
+
+    return prismaClient.expense.update({
+      where: { id: expenseId },
+      data: { paid: true },
+    });
+  }
 }
