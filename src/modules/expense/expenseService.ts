@@ -97,4 +97,11 @@ export class ExpenseService implements IExpenseService {
       }
     }
   }
+
+  async findByIdAndGroup(
+    expenseId: number,
+    groupId: number,
+  ): Promise<IExpense | null> {
+    return this.expenseRepository.findByIdAndGroup(expenseId, groupId);
+  }
 }

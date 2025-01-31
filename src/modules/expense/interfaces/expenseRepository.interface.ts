@@ -6,4 +6,8 @@ export interface IExpenseRepository {
     data: IExpenseCreate,
     transaction?: Prisma.TransactionClient,
   ): Promise<IExpense>;
+  findByIdAndGroup(
+    expenseId: number,
+    groupId: number,
+  ): Promise<IExpense | null>;
 }

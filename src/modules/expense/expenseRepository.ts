@@ -20,4 +20,18 @@ export class ExpenseRepository implements IExpenseRepository {
       data,
     });
   }
+
+  async findByIdAndGroup(
+    expenseId: number,
+    groupId: number,
+  ): Promise<IExpense | null> {
+    return this.prisma.expense.findUnique({
+      where: {
+        id_groupId: {
+          id: expenseId,
+          groupId: groupId,
+        },
+      },
+    });
+  }
 }
