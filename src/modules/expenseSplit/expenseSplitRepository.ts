@@ -30,8 +30,13 @@ export class ExpenseSplitRepository implements IExpenseSplitRepository {
     });
   }
 
-  async markAsPaid(expenseSplitId: number): Promise<IExpenseSplit> {
-    return this.prisma.expenseSplit.update({
+  async markAsPaid(
+    expenseSplitId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpenseSplit> {
+    const prismaClient = transaction || this.prisma;
+
+    return prismaClient.expenseSplit.update({
       where: { id: expenseSplitId },
       data: { paid: true },
     });

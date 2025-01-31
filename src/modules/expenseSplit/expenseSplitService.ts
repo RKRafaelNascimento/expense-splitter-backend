@@ -20,7 +20,10 @@ export class ExpenseSplitService implements IExpenseSplitService {
     return this.expenseSplitRepository.getByExpenseId(expenseId);
   }
 
-  async markAsPaid(expenseSplitId: number): Promise<IExpenseSplit> {
-    return this.expenseSplitRepository.markAsPaid(expenseSplitId);
+  async markAsPaid(
+    expenseSplitId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpenseSplit> {
+    return this.expenseSplitRepository.markAsPaid(expenseSplitId, transaction);
   }
 }
