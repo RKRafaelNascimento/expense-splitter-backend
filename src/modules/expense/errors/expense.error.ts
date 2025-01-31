@@ -1,0 +1,4 @@
+export enum expenseErrorCodes {
+  GENERIC = "GENERIC_ERROR",
+  MEMBER_NOT_FOUND_IN_GROUP = "MEMBER_NOT_FOUND_IN_GROUP",
+}
