@@ -121,11 +121,12 @@ export class ExpenseService implements IExpenseService {
       );
     }
 
-    const expenseSplits =
-      await this.expenseSplitService.getSplitsByExpense(expenseId);
+    const expenseSplits = await this.expenseSplitService.getSplitsByExpense(
+      expenseId,
+      transaction,
+    );
 
     const allPaid = expenseSplits.every((split) => split.paid);
-
     if (!allPaid) return;
 
     return await this.expenseRepository.markAsPaid(expenseId, transaction);

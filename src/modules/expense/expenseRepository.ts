@@ -43,7 +43,10 @@ export class ExpenseRepository implements IExpenseRepository {
 
     return prismaClient.expense.update({
       where: { id: expenseId },
-      data: { paid: true },
+      data: {
+        paid: true,
+        paymentDate: new Date(),
+      },
     });
   }
 }
