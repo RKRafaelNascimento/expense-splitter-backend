@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { IExpenseRepository } from "./interfaces";
+import { IExpenseRepository, IExpenseWithSplit } from "./interfaces";
 import { IExpenseCreate, IExpense } from "./interfaces";
 import { IDatabaseClient } from "@/infra/interfaces";
 
@@ -46,6 +46,61 @@ export class ExpenseRepository implements IExpenseRepository {
       data: {
         paid: true,
         paymentDate: new Date(),
+      },
+    });
+  }
+
+  async findPendingExpensesAndSplitsOwedToMember(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]> {
+    return this.prisma.expense.findMany({
+      where: {
+        groupId: groupId,
+        createdBy: memberId,
+        paid: false,
+      },
+      include: {
+        expenseSplits: {
+          where: {
+            paid: false,
+          },
+          select: {
+            id: true,
+            memberId: true,
+            splitAmount: true,
+            paid: true,
+          },
+        },
+      },
+    });
+  }
+
+  async findUnpaidExpensesAndSplitsYouOwe(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]> {
+    return this.prisma.expense.findMany({
+      where: {
+        groupId: groupId,
+        createdBy: {
+          not: memberId,
+        },
+        paid: false,
+      },
+      include: {
+        expenseSplits: {
+          where: {
+            paid: false,
+            memberId: memberId,
+          },
+          select: {
+            id: true,
+            memberId: true,
+            splitAmount: true,
+            paid: true,
+          },
+        },
       },
     });
   }

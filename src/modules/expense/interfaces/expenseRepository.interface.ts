@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { IExpense, IExpenseCreate } from ".";
+import { IExpense, IExpenseCreate, IExpenseWithSplit } from ".";
 
 export interface IExpenseRepository {
   create(
@@ -14,4 +14,12 @@ export interface IExpenseRepository {
     expenseId: number,
     transaction?: Prisma.TransactionClient,
   ): Promise<IExpense>;
+  findPendingExpensesAndSplitsOwedToMember(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]>;
+  findUnpaidExpensesAndSplitsYouOwe(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]>;
 }

@@ -1,5 +1,5 @@
 import { ExpenseRepository } from ".";
-import { IExpenseService } from "./interfaces";
+import { IExpenseService, IExpenseWithSplit } from "./interfaces";
 import { IExpense } from "./interfaces";
 import { ExpenseSplitService } from "@/modules/expenseSplit";
 import {
@@ -130,5 +130,25 @@ export class ExpenseService implements IExpenseService {
     if (!allPaid) return;
 
     return await this.expenseRepository.markAsPaid(expenseId, transaction);
+  }
+
+  async findPendingExpensesAndSplitsOwedToMember(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]> {
+    return this.expenseRepository.findPendingExpensesAndSplitsOwedToMember(
+      groupId,
+      memberId,
+    );
+  }
+
+  async findUnpaidExpensesAndSplitsYouOwe(
+    groupId: number,
+    memberId: number,
+  ): Promise<IExpenseWithSplit[]> {
+    return this.expenseRepository.findUnpaidExpensesAndSplitsYouOwe(
+      groupId,
+      memberId,
+    );
   }
 }

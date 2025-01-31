@@ -28,3 +28,12 @@ export interface IMemberSplit {
   memberId: number;
   splitAmount: number;
 }
+
+export interface IExpenseWithSplit extends IExpense {
+  expenseSplits: {
+    id: number;
+    memberId: number;
+    splitAmount: number;
+    paid: boolean;
+  }[];
+}

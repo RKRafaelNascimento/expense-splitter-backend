@@ -3,6 +3,7 @@ export {
   IExpense,
   IMemberSplit,
   IExpenseData,
+  IExpenseWithSplit,
 } from "./expense.interface";
 export { IExpenseRepository } from "./expenseRepository.interface";
 export { IExpenseService } from "./expenseService.interface";
