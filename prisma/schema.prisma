@@ -18,14 +18,17 @@ model Group {
   name      String        @unique @db.VarChar(255)
   createdAt DateTime      @default(now()) @map("created_at")
   members   GroupMember[]
+  Expense   Expense[]
 }
 
 model Member {
-  id        Int           @id @default(autoincrement())
-  name      String        @db.VarChar(255)
-  email     String        @unique @db.VarChar(255)
-  createdAt DateTime      @default(now()) @map("created_at")
-  groups    GroupMember[]
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  createdAt    DateTime       @default(now()) @map("created_at")
+  groups       GroupMember[]
+  Expense      Expense[]
+  ExpenseSplit ExpenseSplit[]
 }
 
 model GroupMember {
@@ -38,4 +41,32 @@ model GroupMember {
   member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
   @@unique([groupId, memberId])
+}
+
+model Expense {
+  id          Int       @id @default(autoincrement())
+  groupId     Int
+  name        String    @db.VarChar(255)
+  amount      Float
+  paid        Boolean   @default(false)
+  paymentDate DateTime?
+  createdBy   Int
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  group           Group  @relation(fields: [groupId], references: [id], onDelete: Restrict)
+  createdByMember Member @relation(fields: [createdBy], references: [id], onDelete: Restrict)
+
+  expenseSplits ExpenseSplit[]
+}
+
+model ExpenseSplit {
+  id          Int      @id @default(autoincrement())
+  expenseId   Int
+  memberId    Int
+  splitAmount Float
+  paid        Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  expense Expense @relation(fields: [expenseId], references: [id], onDelete: Restrict)
+  member  Member  @relation(fields: [memberId], references: [id], onDelete: Restrict)
 }
