@@ -24,8 +24,12 @@ export class ExpenseSplitRepository implements IExpenseSplitRepository {
     });
   }
 
-  async getByExpenseId(expenseId: number): Promise<IExpenseSplit[]> {
-    return this.prisma.expenseSplit.findMany({
+  async getByExpenseId(
+    expenseId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpenseSplit[]> {
+    const prismaClient = transaction || this.prisma;
+    return prismaClient.expenseSplit.findMany({
       where: { expenseId },
     });
   }

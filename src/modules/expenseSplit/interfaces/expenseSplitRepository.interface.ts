@@ -7,7 +7,10 @@ export interface IExpenseSplitRepository {
     transaction?: Prisma.TransactionClient,
   ): Promise<IExpenseSplit>;
 
-  getByExpenseId(expenseId: number): Promise<IExpenseSplit[]>;
+  getByExpenseId(
+    expenseId: number,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<IExpenseSplit[]>;
 
   markAsPaid(
     expenseSplitId: number,
