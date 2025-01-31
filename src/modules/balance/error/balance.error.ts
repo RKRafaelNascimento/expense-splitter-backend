@@ -1,0 +1,4 @@
+export enum balanceErrorCodes {
+  GENERIC = "GENERIC_ERROR",
+  INSUFFICIENT_BALANCE = "INSUFFICIENT_BALANCE",
+}
