@@ -11,4 +11,5 @@ export interface IBalanceService {
     data: ITransfer,
     transaction: Prisma.TransactionClient,
   ): Promise<void>;
+  getAllBalancesByGroup(groupId: number): void;
 }

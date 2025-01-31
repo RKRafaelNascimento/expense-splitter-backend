@@ -10,3 +10,12 @@ export interface ITransfer {
   receiverId: number;
   groupId: number;
 }
+
+export interface IBalance {
+  name: string;
+  email: string;
+  netBalance: number;
+  currentBalance: number;
+  totalYouOweAmount: number;
+  totalOwedAmount: number;
+}
