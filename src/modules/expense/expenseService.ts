@@ -21,25 +21,25 @@ export class ExpenseService implements IExpenseService {
 
   async create(data: IExpenseData): Promise<IExpense> {
     return await this.prisma.$transaction(async (transaction) => {
-      const { groupId, amount, name, memberId, memberIds } = data;
+      const { groupId, amount, name, memberId: selfMemberId, memberIds } = data;
 
       if (memberIds && memberIds.length) {
-        await this.validateMembersInGroup(groupId, memberIds);
+        await this.validateMembersInGroup(groupId, memberIds, selfMemberId);
       }
 
       const memberIdsMapped =
         memberIds && memberIds.length
           ? memberIds
-          : (await this.groupMemberService.findMembersByGroupId(groupId)).map(
-              (member) => member.memberId,
-            );
+          : (await this.groupMemberService.findMembersByGroupId(groupId))
+              .filter(({ memberId }) => memberId !== selfMemberId)
+              .map((member) => member.memberId);
 
       const memberSplit = this.splitAmountAmongMembers(memberIdsMapped, amount);
 
       const expense = await this.expenseRepository.create(
         {
           name,
-          createdBy: memberId,
+          createdBy: selfMemberId,
           amount,
           groupId,
         },
@@ -83,7 +83,18 @@ export class ExpenseService implements IExpenseService {
     });
   }
 
-  private async validateMembersInGroup(groupId: number, memberIds: number[]) {
+  private async validateMembersInGroup(
+    groupId: number,
+    memberIds: number[],
+    selfMemberId: number,
+  ) {
+    if (memberIds.includes(selfMemberId)) {
+      throw new BadRequestError(
+        "You cannot include yourself in the expense.",
+        expenseErrorCodes.CANNOT_BE_YOURSELF_MEMBERID,
+      );
+    }
+
     for (const memberId of memberIds) {
       const member = await this.groupMemberService.findByGroupAndMember(
         groupId,
