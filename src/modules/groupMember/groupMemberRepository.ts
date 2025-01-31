@@ -23,4 +23,11 @@ export class GroupMemberRepository implements IGroupMemberRepository {
       where: { groupId_memberId: { groupId, memberId } },
     });
   }
+
+  async findMembersByGroupId(groupId: number): Promise<IGroupMember[]> {
+    return this.prisma.groupMember.findMany({
+      where: { groupId },
+      select: { id: true, groupId: true, memberId: true, createdAt: true },
+    });
+  }
 }

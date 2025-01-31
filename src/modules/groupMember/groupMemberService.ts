@@ -27,4 +27,15 @@ export class GroupMemberService implements IGroupMemberService {
 
     return this.groupMemberRepository.create(groupId, memberId);
   }
+
+  async findByGroupAndMember(
+    groupId: number,
+    memberId: number,
+  ): Promise<IGroupMember | null> {
+    return this.groupMemberRepository.findByGroupAndMember(groupId, memberId);
+  }
+
+  async findMembersByGroupId(groupId: number): Promise<IGroupMember[]> {
+    return this.groupMemberRepository.findMembersByGroupId(groupId);
+  }
 }
