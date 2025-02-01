@@ -3,6 +3,7 @@ import { ValidatorService } from "@/shared/Validator";
 import { DatabaseClient } from "@/infra/database";
 import { GroupMemberServiceFactory } from "@/modules/groupMember";
 import { ExpenseSplitServiceFactory } from "@/modules/expenseSplit";
+import { FileService } from "@/shared/FileService";
 
 export class ExpenseServiceFactory {
   private static instance: ExpenseService;
@@ -30,6 +31,7 @@ export class ExpenseControllerFactory {
       this.instance = new ExpenseController(
         ExpenseServiceFactory.getInstance(),
         new ValidatorService(),
+        new FileService(),
       );
     }
     return this.instance;

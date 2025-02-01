@@ -1,20 +1,9 @@
 import { Router } from "express";
-import { ExpenseController, ExpenseService, ExpenseRepository } from ".";
-import { ValidatorService } from "@/shared/Validator";
-import { ExpenseSplitServiceFactory } from "@/modules/expenseSplit";
-import { DatabaseClient } from "@/infra/database";
+import { ExpenseControllerFactory } from ".";
 import { GroupMemberMiddleware } from "@/shared/middlewares";
+import { upload } from "@/shared/Multer";
 
-const expenseRepository = new ExpenseRepository(DatabaseClient.getInstance());
-const expenseSplitService = ExpenseSplitServiceFactory.getInstance();
-const expenseService = new ExpenseService(
-  expenseRepository,
-  expenseSplitService,
-);
-const expenseController = new ExpenseController(
-  expenseService,
-  new ValidatorService(),
-);
+const expenseController = ExpenseControllerFactory.getInstance();
 
 const routes = Router();
 
@@ -22,6 +11,12 @@ routes.post(
   "/expense",
   GroupMemberMiddleware.check,
   expenseController.create.bind(expenseController),
+);
+
+routes.post(
+  "/expense/upload",
+  upload.single("file"),
+  expenseController.uploadCsv.bind(expenseController),
 );
 
 export default routes;
