@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { IExpense, IExpenseData, IExpenseWithSplit } from ".";
 
 export interface IExpenseService {
-  create(data: IExpenseData, memberIds: number[]): Promise<IExpense>;
+  create(data: IExpenseData): Promise<IExpense>;
   findByIdAndGroup(
     expenseId: number,
     groupId: number,
