@@ -17,4 +17,6 @@ export const awsConfig = (): IAWSVariable => ({
 export const awsBucketExpenseBatch =
   process.env.AWS_BUCKET_EXPENSE_BATCH || "expense-batch";
 
-export const awsQueueExpenseBatch = process.env.AWS_QUEUE_EXPENSE_BATCH!;
+export const awsQueueExpenseBatch =
+  process.env.AWS_QUEUE_EXPENSE_BATCH ||
+  "https://sqs.us-east-1.amazonaws.com/454250076933/expense-batch";
