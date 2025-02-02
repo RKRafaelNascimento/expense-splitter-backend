@@ -148,7 +148,8 @@ export class MulterConfig {
 
           if (!responseSent) {
             responseSent = true;
-            if (error.code === "CSV_RECORD_INCONSISTENT_COLUMNS") {
+            // @ts-expect-error ignore
+            if ((error as unknown).code === "CSV_RECORD_INCONSISTENT_COLUMNS") {
               return res.status(400).json({
                 code: multerErrorCodes.CSV_INVALID_FORMAT,
                 statusCode: 400,
