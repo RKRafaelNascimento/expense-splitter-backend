@@ -10,7 +10,7 @@
     "start:consumer": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/modules/expenseBatchProcessor/index.ts",
     "seed:dev": "dotenv -e .env.development -- ts-node --project tsconfig.json --transpile-only ./src/infra/seeders/index.ts",
     "seed:docker": "docker-compose exec app node ./dist/infra/seeders/index.js",
-    "migrate": "npx prisma migrate dev",
+    "migrate": "prisma migrate dev",
     "migrate:docker": "docker-compose exec app npx prisma migrate dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
