@@ -20,4 +20,10 @@ export class MemberRepository implements IMemberRepository {
       where: { email },
     });
   }
+
+  async getById(id: number): Promise<IMember | null> {
+    return this.prisma.member.findUnique({
+      where: { id },
+    });
+  }
 }
