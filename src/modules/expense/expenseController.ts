@@ -54,7 +54,7 @@ export class ExpenseController implements IExpenseController {
       }
 
       const filePath = req.file.path;
-      const fileName = `expenses/${Date.now()}_${req.file.originalname}`;
+      const fileName = `${Date.now()}_${req.file.originalname}`;
 
       const s3Url = await this.fileService.uploadFile({
         fileName,
