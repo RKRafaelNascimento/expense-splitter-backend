@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ExpenseControllerFactory } from ".";
 import { GroupMemberMiddleware } from "@/shared/middlewares";
-import { upload } from "@/shared/Multer";
+import { upload, validateUploadedFile } from "@/shared/Multer";
 
 const expenseController = ExpenseControllerFactory.getInstance();
 
@@ -16,6 +16,8 @@ routes.post(
 routes.post(
   "/expense/upload",
   upload.single("file"),
+  // @ts-expect-error ignore
+  validateUploadedFile,
   expenseController.uploadCsv.bind(expenseController),
 );
 
