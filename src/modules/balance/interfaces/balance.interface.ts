@@ -4,6 +4,12 @@ export interface IBalanceUpdate {
   balance: number;
 }
 
+export interface IBalanceCreate {
+  memberId: number;
+  groupId: number;
+  balance: number;
+}
+
 export interface ITransfer {
   amount: number;
   senderId: number;

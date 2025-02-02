@@ -3,6 +3,7 @@ import {
   IBalanceService,
   IBalanceRepository,
   IBalanceUpdate,
+  IBalanceCreate,
 } from "./interfaces";
 import { IBalance, ITransfer } from "./interfaces";
 import { BadRequestError } from "@/shared/errors";
@@ -110,5 +111,12 @@ export class BalanceService implements IBalanceService {
     );
 
     return balances;
+  }
+
+  async create(
+    data: IBalanceCreate,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<void> {
+    return this.balanceRepository.create(data, transaction);
   }
 }

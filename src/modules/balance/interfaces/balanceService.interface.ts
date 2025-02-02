@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { IBalanceUpdate, ITransfer } from ".";
+import { IBalanceCreate, IBalanceUpdate, ITransfer } from ".";
 
 export interface IBalanceService {
   get(memberId: number, groupId: number): Promise<number>;
@@ -12,4 +12,8 @@ export interface IBalanceService {
     transaction: Prisma.TransactionClient,
   ): Promise<void>;
   getAllBalancesByGroup(groupId: number): void;
+  create(
+    data: IBalanceCreate,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<void>;
 }

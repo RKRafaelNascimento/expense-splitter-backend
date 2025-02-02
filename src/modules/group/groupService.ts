@@ -2,11 +2,13 @@ import { BadRequestError } from "@/shared/errors";
 import { IGroupService, IGroupRepository, IGroup } from "./interfaces";
 import { ErrorCodes } from "@/shared/enums";
 import { IGroupMemberService } from "@/modules/groupMember/interfaces";
+import { IBalanceService } from "../balance/interfaces";
 
 export class GroupService implements IGroupService {
   constructor(
     private groupRepository: IGroupRepository,
     private groupMemberService: IGroupMemberService,
+    private balanceService: IBalanceService,
   ) {}
 
   async create(name: string): Promise<IGroup> {
@@ -23,6 +25,7 @@ export class GroupService implements IGroupService {
 
   async addMember(groupId: number, memberId: number): Promise<void> {
     await this.groupMemberService.addMemberToGroup(groupId, memberId);
+    await this.balanceService.create({ groupId, memberId, balance: 0 });
   }
 
   async getByName(name: string): Promise<IGroup | null> {

@@ -1,11 +1,18 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { IBalanceUpdate, IBalanceRepository } from "./interfaces";
+import {
+  IBalanceUpdate,
+  IBalanceRepository,
+  IBalanceCreate,
+} from "./interfaces";
 import { IDatabaseClient } from "@/infra/interfaces";
+import { DatabaseClient } from "@/infra/database";
 
 export class BalanceRepository implements IBalanceRepository {
   private prisma: PrismaClient;
 
-  constructor(private databaseClient: IDatabaseClient) {
+  constructor(
+    private databaseClient: IDatabaseClient = DatabaseClient.getInstance(),
+  ) {
     this.prisma = this.databaseClient.getOrmClient();
   }
 
@@ -26,6 +33,20 @@ export class BalanceRepository implements IBalanceRepository {
     await prismaClient.balance.update({
       where: { memberId_groupId: { memberId, groupId } },
       data: { balance },
+    });
+  }
+
+  async create(
+    { balance, memberId, groupId }: IBalanceCreate,
+    transaction?: Prisma.TransactionClient,
+  ): Promise<void> {
+    const prismaClient = transaction || this.prisma;
+    await prismaClient.balance.create({
+      data: {
+        memberId,
+        groupId,
+        balance,
+      },
     });
   }
 }
