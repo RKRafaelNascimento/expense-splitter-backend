@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && tsc-alias",
+    "start": "node ./dist/server.js",
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
     "start:consumer": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/modules/expenseBatchProcessor/index.ts",
     "seed:dev": "dotenv -e .env.development -- ts-node --project tsconfig.json --transpile-only ./src/infra/seeders/index.ts",
+    "seed:docker": "docker-compose exec app node ./dist/infra/seeders/index.js",
+    "migrate": "npx prisma migrate dev",
+    "migrate:docker": "docker-compose exec app npx prisma migrate dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "jest --passWithNoTests",
@@ -35,6 +40,7 @@
     "prisma": "^6.3.0",
     "ts-jest": "^29.2.5",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.22.0"
