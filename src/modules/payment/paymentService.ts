@@ -5,13 +5,14 @@ import { IExpenseSplitService } from "@/modules/expenseSplit/interfaces";
 import { IBalanceService } from "@/modules/balance/interfaces";
 import { IPaymentData } from "./interfaces";
 import { paymentErrorCodes } from "./errors";
+import { BalanceServiceFactory } from "../balance";
 
 export class PaymentService {
   constructor(
     private expenseService: IExpenseService,
     private expenseSplitService: IExpenseSplitService,
-    private balanceService: IBalanceService,
     private databaseClient: IDatabaseClient,
+    private balanceService: IBalanceService = BalanceServiceFactory.getInstance(),
   ) {}
 
   async payExpense(data: IPaymentData): Promise<void> {
