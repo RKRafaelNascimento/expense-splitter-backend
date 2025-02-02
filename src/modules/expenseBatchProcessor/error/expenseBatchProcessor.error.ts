@@ -1,0 +1,4 @@
+export enum expenseBatchProcessorCodes {
+  GENERIC = "GENERIC_ERROR",
+  MISSING_OR_INVALID_PARAMETERS = "MISSING_OR_INVALID_PARAMETERS",
+}

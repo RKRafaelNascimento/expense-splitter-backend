@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
+    "start:consumer": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/modules/expenseBatchProcessor/index.ts",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
@@ -35,7 +36,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.740.0",
+    "@aws-sdk/client-sqs": "^3.738.0",
     "@prisma/client": "^6.3.0",
+    "csv-parse": "^5.6.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "http-status-codes": "^2.3.0",

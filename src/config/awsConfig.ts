@@ -1,4 +1,4 @@
-interface IAWSVariable {
+export interface IAWSVariable {
   region: string;
   credentials: {
     accessKeyId: string;
@@ -16,3 +16,5 @@ export const awsConfig = (): IAWSVariable => ({
 
 export const awsBucketExpenseBatch =
   process.env.AWS_BUCKET_EXPENSE_BATCH || "expense-batch";
+
+export const awsQueueExpenseBatch = process.env.AWS_QUEUE_EXPENSE_BATCH!;
