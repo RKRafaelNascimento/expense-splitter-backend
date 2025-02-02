@@ -22,6 +22,13 @@ async function main() {
       await transaction.member.deleteMany({});
       await transaction.group.deleteMany({});
 
+      await transaction.$executeRaw`ALTER SEQUENCE "Group_id_seq" RESTART WITH 1;`;
+      await transaction.$executeRaw`ALTER SEQUENCE "Member_id_seq" RESTART WITH 1;`;
+      await transaction.$executeRaw`ALTER SEQUENCE "GroupMember_id_seq" RESTART WITH 1;`;
+      await transaction.$executeRaw`ALTER SEQUENCE "Expense_id_seq" RESTART WITH 1;`;
+      await transaction.$executeRaw`ALTER SEQUENCE "ExpenseSplit_id_seq" RESTART WITH 1;`;
+      await transaction.$executeRaw`ALTER SEQUENCE "Balance_id_seq" RESTART WITH 1;`;
+
       await transaction.group.createMany({
         data: [{ name: "Group A" }, { name: "Group B" }],
       });
