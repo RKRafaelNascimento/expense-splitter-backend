@@ -1,11 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { IDatabaseClient } from "@/infra/interfaces";
 import { IGroup, IGroupRepository } from "./interfaces";
+import { DatabaseClient } from "@/infra/database";
 
 export class GroupRepository implements IGroupRepository {
   private prisma: PrismaClient;
 
-  constructor(private databaseClient: IDatabaseClient) {
+  constructor(
+    private databaseClient: IDatabaseClient = DatabaseClient.getInstance(),
+  ) {
     this.prisma = this.databaseClient.getOrmClient();
   }
 
@@ -18,6 +21,12 @@ export class GroupRepository implements IGroupRepository {
   async getByName(name: string): Promise<IGroup | null> {
     return this.prisma.group.findUnique({
       where: { name },
+    });
+  }
+
+  async getById(id: number): Promise<IGroup | null> {
+    return this.prisma.group.findUnique({
+      where: { id },
     });
   }
 }
