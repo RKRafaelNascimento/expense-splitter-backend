@@ -5,6 +5,8 @@ export interface IFileService {
     filePath,
     mimeType,
   }: IFileUpload): Promise<{ url: string }>;
+  downloadFile(bucketName: string, fileKey: string): Promise<string>;
+  deleteFile(bucketName: string, fileKey: string): Promise<void>;
 }
 
 export interface IFileUpload {
