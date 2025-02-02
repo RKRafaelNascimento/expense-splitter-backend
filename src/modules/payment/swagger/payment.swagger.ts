@@ -136,6 +136,44 @@ export const paymentSwagger = {
               },
             },
           },
+          401: {
+            description:
+              "Unauthorized – user does not have permission to perform this action.",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    code: {
+                      type: "string",
+                      example: "USER_NOT_IN_GROUP",
+                    },
+                    statusCode: { type: "number", example: 401 },
+                    statusCodeAsString: {
+                      type: "string",
+                      example: "UNAUTHORIZED",
+                    },
+                    description: {
+                      type: "string",
+                      example: "User is not a member of the specified group",
+                    },
+                  },
+                },
+                examples: {
+                  userNotInGroup: {
+                    summary: "User is not a member of the specified group",
+                    value: {
+                      code: "USER_NOT_IN_GROUP",
+                      statusCode: 401,
+                      statusCodeAsString: "UNAUTHORIZED",
+                      description:
+                        "User is not a member of the specified group",
+                    },
+                  },
+                },
+              },
+            },
+          },
           404: {
             description:
               "Not Found – expense not found or the split for the member was not found.",
