@@ -1,3 +1,7 @@
+import { GroupRepository } from "@/modules/group";
+import { IGroupRepository } from "@/modules/group/interfaces";
+import { MemberServiceFactory } from "@/modules/member";
+import { IMemberService } from "@/modules/member/interfaces";
 import { groupMemberErrorCodes } from "./erros";
 import {
   IGroupMemberService,
@@ -5,10 +9,14 @@ import {
   IGroupMember,
   IGroupWithMember,
 } from "./interfaces";
-import { BadRequestError } from "@/shared/errors";
+import { BadRequestError, NotFoundError } from "@/shared/errors";
 
 export class GroupMemberService implements IGroupMemberService {
-  constructor(private groupMemberRepository: IGroupMemberRepository) {}
+  constructor(
+    private groupMemberRepository: IGroupMemberRepository,
+    private memberService: IMemberService = MemberServiceFactory.getInstance(),
+    private groupRepository: IGroupRepository = new GroupRepository(),
+  ) {}
 
   async addMemberToGroup(
     groupId: number,
@@ -18,6 +26,24 @@ export class GroupMemberService implements IGroupMemberService {
       groupId,
       memberId,
     );
+
+    const member = await this.memberService.getById(memberId);
+
+    if (!member) {
+      throw new NotFoundError(
+        "Member does not exist",
+        groupMemberErrorCodes.MEMBER_DOES_NOT_EXIST,
+      );
+    }
+
+    const group = await this.groupRepository.getById(groupId);
+
+    if (!group) {
+      throw new NotFoundError(
+        "Group does not exist",
+        groupMemberErrorCodes.GROUP_DOES_NOT_EXIST,
+      );
+    }
 
     if (alreadyExists) {
       throw new BadRequestError(
