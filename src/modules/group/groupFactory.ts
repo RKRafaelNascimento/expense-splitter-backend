@@ -11,8 +11,8 @@ export class GroupServiceFactory {
     if (!this.instance) {
       this.instance = new GroupService(
         new GroupRepository(DatabaseClient.getInstance()),
-        GroupMemberServiceFactory.getInstance(),
-        BalanceServiceFactory.getInstance(),
+        () => GroupMemberServiceFactory.getInstance(),
+        () => BalanceServiceFactory.getInstance(),
       );
     }
     return this.instance;

@@ -9,15 +9,13 @@ import { IBalance, ITransfer } from "./interfaces";
 import { BadRequestError } from "@/shared/errors";
 import { balanceErrorCodes } from "./error";
 import { IGroupMemberService } from "@/modules/groupMember/interfaces";
-import { GroupMemberServiceFactory } from "@/modules/groupMember";
 import { IExpenseService } from "@/modules/expense/interfaces";
-import { ExpenseServiceFactory } from "@/modules/expense";
 
 export class BalanceService implements IBalanceService {
   constructor(
     private balanceRepository: IBalanceRepository,
-    private groupMemberService: IGroupMemberService = GroupMemberServiceFactory.getInstance(),
-    private expenseService: IExpenseService = ExpenseServiceFactory.getInstance(),
+    private groupMemberService: () => IGroupMemberService,
+    private expenseService: () => IExpenseService,
   ) {}
 
   async get(memberId: number, groupId: number): Promise<number> {
@@ -60,14 +58,14 @@ export class BalanceService implements IBalanceService {
 
   async getAllBalancesByGroup(groupId: number): Promise<IBalance[]> {
     const members =
-      await this.groupMemberService.findMembersWithDetailsByGroupId(groupId);
+      await this.groupMemberService().findMembersWithDetailsByGroupId(groupId);
 
     const balances = await Promise.all(
       members.map(async (member) => {
         const currentBalance = await this.get(member.memberId, groupId);
 
         const totalOwedToMember =
-          await this.expenseService.findPendingExpensesAndSplitsOwedToMember(
+          await this.expenseService().findPendingExpensesAndSplitsOwedToMember(
             groupId,
             member.memberId,
           );
@@ -83,7 +81,7 @@ export class BalanceService implements IBalanceService {
         );
 
         const totalYouOwe =
-          await this.expenseService.findUnpaidExpensesAndSplitsYouOwe(
+          await this.expenseService().findUnpaidExpensesAndSplitsYouOwe(
             groupId,
             member.memberId,
           );
