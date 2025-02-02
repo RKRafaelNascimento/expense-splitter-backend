@@ -52,8 +52,8 @@ describe("BalanceService", () => {
 
     balanceService = new BalanceService(
       mockBalanceRepository,
-      mockGroupMemberService,
-      mockExpenseService,
+      () => mockGroupMemberService,
+      () => mockExpenseService,
     );
   });
 
