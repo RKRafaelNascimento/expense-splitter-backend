@@ -5,12 +5,15 @@ import { ILogger } from "@/shared/Logger/interfaces";
 import { Logger } from "@/shared/Logger";
 import { DatabaseClient } from "@/infra/database";
 import * as routes from "@/modules";
+import swaggerUi from "swagger-ui-express";
+import { swaggerConfig } from "@/shared/swagger/swagger-config";
 
 export default class App {
   private readonly application: Application;
   private server: Server;
   private hasInitialized = false;
   private static instance: App;
+
   private constructor(
     private port: number = applicationConfig.port,
     private readonly logger: ILogger = Logger.getInstance(),
@@ -18,6 +21,7 @@ export default class App {
     this.application = express();
     this.server = createServer(this.application);
   }
+
   public static getInstance(): App {
     if (this.instance) return this.instance;
     this.instance = new App();
@@ -28,12 +32,19 @@ export default class App {
     this.logger.info({ msg: "Initializing global middle" });
     this.application.use(express.json());
     this.application.use(express.urlencoded({ extended: false }));
+
+    this.application.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerConfig),
+    );
   }
 
   public async stopApplication(): Promise<void> {
     this.logger.info({ msg: "Stopping application" });
     this.server.close();
   }
+
   private setupRoutes(): void {
     this.logger.info({ msg: "Initializing application routes" });
     this.application.use("/", [...Object.values(routes)]);
@@ -41,7 +52,6 @@ export default class App {
 
   private async setupDatabases(): Promise<void> {
     this.logger.info({ msg: "connecting to databases" });
-
     await Promise.all([DatabaseClient.getInstance().startConnection()]);
     this.logger.info({ msg: "databases connected successfully" });
   }
@@ -52,6 +62,7 @@ export default class App {
       this.logger.info({ msg: `Server listening on port ${this.port}` });
     });
   }
+
   public async initApplication(): Promise<void> {
     if (this.hasInitialized) return;
     this.hasInitialized = true;
