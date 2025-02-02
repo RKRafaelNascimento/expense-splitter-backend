@@ -5,7 +5,7 @@ import {
   IBalanceUpdate,
 } from "./interfaces";
 import { IBalance, ITransfer } from "./interfaces";
-import { NotFoundError } from "@/shared/errors";
+import { BadRequestError } from "@/shared/errors";
 import { balanceErrorCodes } from "./error";
 import { IGroupMemberService } from "@/modules/groupMember/interfaces";
 import { GroupMemberServiceFactory } from "@/modules/groupMember";
@@ -38,7 +38,7 @@ export class BalanceService implements IBalanceService {
     const senderBalance = await this.get(senderId, groupId);
 
     if (senderBalance < amount) {
-      throw new NotFoundError(
+      throw new BadRequestError(
         "Insufficient balance to make the transfer.",
         balanceErrorCodes.INSUFFICIENT_BALANCE,
       );
