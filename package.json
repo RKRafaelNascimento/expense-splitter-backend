@@ -7,7 +7,10 @@
     "start:dev": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/server.ts",
     "start:consumer": "dotenv -e .env.development -- ts-node-dev --poll --respawn --transpile-only --no-notify -r tsconfig-paths/register src/modules/expenseBatchProcessor/index.ts",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "test": "jest --passWithNoTests",
+    "test:watch": "npm test --watch",
+    "test:staged": "npm test --findRelatedTests"
   },
   "keywords": [],
   "author": "",
