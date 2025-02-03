@@ -1,5 +1,5 @@
 export interface INotificationService {
-  sendNotification(data: IEmailNotification): Promise<void>;
+  sendEmail(data: IEmailNotification): Promise<void>;
 }
 
 export interface IEmailNotification {

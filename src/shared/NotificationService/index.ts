@@ -17,7 +17,7 @@ export class NotificationService implements INotificationService {
     this.senderEmail = process.env.SES_SENDER_EMAIL || "noreply@example.com";
   }
 
-  async sendNotification(data: IEmailNotification): Promise<void> {
+  async sendEmail(data: IEmailNotification): Promise<void> {
     try {
       const { to, body, subject } = data;
       const recipients = Array.isArray(to) ? to : [to];
