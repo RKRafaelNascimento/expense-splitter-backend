@@ -159,7 +159,7 @@ npm run test
 
 ### Postman Collection
 
-The Postman collection is available in the following path:
+The Postman collection is available in the following path
 
 ```
 \_postman
