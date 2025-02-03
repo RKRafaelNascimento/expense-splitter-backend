@@ -157,6 +157,16 @@ npm run test
 
 ---
 
+### Postman Collection
+
+The Postman collection is available in the following path:
+
+```
+\_postman
+```
+
+---
+
 ### Swagger API Documentation
 
 The API documentation is available at the following endpoint after starting the application:
