@@ -1,3 +1,7 @@
+https://aws-rafaeldev-1.signin.aws.amazon.com/console
+username: Edmundo
+password: Edmundo@2025
+
 # Expense Splitter Backend API
 
 This API provides endpoints for managing groups, members, expenses, and balances for an expense splitting application. Each endpoint is described below along with its purpose and usage examples.
@@ -168,6 +172,40 @@ http://localhost:<PORT>/api-docs
 Replace <PORT> with the value defined in your .env.development file (default: 3000).
 
 ---
+
+# Design Decisions and Technical Considerations
+
+## About the Structure
+
+Each module (balance, expense, group, payment) has its own folder for organization, ensuring that each part of the code has a single point of maintenance. This facilitates scalability, improves readability, and, in the future, if it becomes necessary to break it into microservices, it will be easier to extract the module and migrate it to a separate API.
+
+Within each module, there is a clear separation between controllers, services, and repositories, following the Layered Architecture pattern, where business logic is isolated from control logic and data persistence.
+
+## About the Requirement: File Upload
+
+I chose to use a queue to meet the following requirement:
+
+```
+Technological Requirements: It is important to demonstrate how your system handles high load.
+```
+
+The file processing was implemented asynchronously to ensure performance, scalability, and resilience, isolating failures and improving the user experience without blocking the system. Additionally, I provided a diagram in Excalidraw, located in the Consumer section, with a Flow Diagram, where I explain possible improvements.
+
+## About the Requirement: Email Notification
+
+I did not implement email sending because it would require setting up a domain for SES (Simple Email Service) dispatch. However, I have implemented the class in src/shared/NotificationService in case you want to review it.
+
+## About AWS Resources
+
+I created S3 and SQS services, along with a user for the application with restricted access to these services, ensuring the correct operation of the upload functionality. Additionally, I created a second user with the same access permissions, in case you need to view files in S3 or track messages in SQS.
+
+After completing the test, I will delete the users, as I am committing the credentials. If you have any questions, I am available.
+
+## Additional Endpoints
+
+I created two extra endpoints: Create Member and Add Member, in case you want to generate your own test data. However, I have also provided seeders to facilitate test data creation.
+
+**Note:** With more time, I would also implement integration tests, but for now, I have only included unit tests in the Expense, Payment, and Balance services.
 
 # API Endpoints Documentation
 
