@@ -1,7 +1,3 @@
-https://aws-rafaeldev-1.signin.aws.amazon.com/console
-username: Edmundo
-password: Edmundo@2025
-
 # Expense Splitter Backend API
 
 This API provides endpoints for managing groups, members, expenses, and balances for an expense splitting application. Each endpoint is described below along with its purpose and usage examples.
