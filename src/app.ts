@@ -44,6 +44,12 @@ export default class App {
   public async stopApplication(): Promise<void> {
     this.logger.info({ msg: "Stopping application" });
     this.server.close();
+    this.closeToDatabase();
+  }
+
+  private async closeToDatabase(): Promise<void> {
+    console.info(`Closing database connection`);
+    await DatabaseClient.getInstance().closeConnection();
   }
 
   private setupRoutes(): void {
