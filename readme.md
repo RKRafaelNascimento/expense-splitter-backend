@@ -199,6 +199,10 @@ I did not implement email sending because it would require setting up a domain f
 
 I created S3 and SQS services, along with a user for the application with restricted access to these services, ensuring the correct operation of the upload functionality. Additionally, I created a second user with the same access permissions, in case you need to view files in S3 or track messages in SQS.
 
+https://aws-rafaeldev-1.signin.aws.amazon.com/console
+username: Edmundo
+password: Edmundo@2025
+
 After completing the test, I will delete the users, as I am committing the credentials. If you have any questions, I am available.
 
 ## Additional Endpoints
