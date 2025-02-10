@@ -197,26 +197,6 @@ Technological Requirements: It is important to demonstrate how your system handl
 
 The file processing was implemented asynchronously to ensure performance, scalability, and resilience, isolating failures and improving the user experience without blocking the system. Additionally, I provided a diagram in Excalidraw, located in the Consumer section, with a Flow Diagram, where I explain possible improvements.
 
-## About the Requirement: Email Notification
-
-I did not implement email sending because it would require setting up a domain for SES (Simple Email Service) dispatch. However, I have implemented the class in src/shared/NotificationService in case you want to review it.
-
-## About AWS Resources
-
-I created S3 and SQS services, along with a user for the application with restricted access to these services, ensuring the correct operation of the upload functionality. Additionally, I created a second user with the same access permissions, in case you need to view files in S3 or track messages in SQS.
-
-https://aws-rafaeldev-1.signin.aws.amazon.com/console
-username: Edmundo
-password: Edmundo@2025
-
-After completing the test, I will delete the users, as I am committing the credentials. If you have any questions, I am available.
-
-## Additional Endpoints
-
-I created two extra endpoints: Create Member and Add Member, in case you want to generate your own test data. However, I have also provided seeders to facilitate test data creation.
-
-**Note:** With more time, I would also implement integration tests, but for now, I have only included unit tests in the Expense, Payment, and Balance services.
-
 # API Endpoints Documentation
 
 ## Consumer (Expense Batch Processor)
@@ -231,7 +211,7 @@ This consumer process will process the uploaded CSV file.
 
 **Note:** There is an example CSV available in the ./folder/expenseBatch.csv directory.
 
-**Note:** The required bucket and queue have already been set up. For a visual representation of the processing flow, please refer to the [Flow Diagram](https://excalidraw.com/#room=832d03ed9ebe6ca64e9e,CiXCqQA3e3AiOaWZN8R_WA).
+**Note:** For a visual representation of the processing flow, please refer to the [Flow Diagram](https://excalidraw.com/#room=832d03ed9ebe6ca64e9e,CiXCqQA3e3AiOaWZN8R_WA).
 
 ## Payment
 
