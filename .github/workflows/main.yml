@@ -1,0 +1,29 @@
+name: "Github Actions Pipeline"
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: NodeJS Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Installing Dependecies
+        run: npm install
+
+      - name: Testing Running
+        run: npm run test:coverage
+
+      - name: Upload Coverage Reports to CodeCov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: RKRafaelNascimento/expense-splitter-backend
