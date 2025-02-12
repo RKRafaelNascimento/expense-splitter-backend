@@ -21,3 +21,9 @@ jobs:
 
       - name: Testing Running
         run: npm run test:coverage
+
+      - name: Upload Coverage Reports to CodeCov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: RKRafaelNascimento/expense-splitter-backend
