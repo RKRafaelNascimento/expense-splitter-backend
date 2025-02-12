@@ -211,7 +211,7 @@ This consumer process will process the uploaded CSV file.
 
 **Note:** There is an example CSV available in the ./folder/expenseBatch.csv directory.
 
-**Note:** For a visual representation of the processing flow, please refer to the [Flow Diagram](https://excalidraw.com/#room=832d03ed9ebe6ca64e9e,CiXCqQA3e3AiOaWZN8R_WA).
+**Note:** For a visual representation of the processing flow, please refer to the [Flow Diagram](https://excalidraw.com/#json=YFGnvRiZqmsXKkELu3Iwo,L0gxKZBdgNtOmsmOZKp4-w)).
 
 ## Payment
 
